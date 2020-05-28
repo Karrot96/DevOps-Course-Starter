@@ -25,9 +25,7 @@ def index():
 @app.route('/update_items', methods=['POST'])
 def update_items():
     for item in session.get_items():
-        print(item)
         item_completed = request.form.get(str(item['id']))
-        print(item_completed)
         if item_completed == "on":
             item['status'] = "Completed"
             session.save_item(item)
