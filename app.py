@@ -21,7 +21,6 @@ def index():
     items += [
         item.add_url(url_for('undo_complete', id=item.id)) for item in get_items if item.completed
     ]
-    print(items)
     return render_template('index.html', items=sorted(items, key=lambda item: item.completed))
 
 @app.route('/complete_items/<id>')

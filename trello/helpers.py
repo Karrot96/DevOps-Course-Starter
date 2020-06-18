@@ -75,7 +75,6 @@ class Trello:
             else:
                 raise ValueError(f"{card['name']} is not a memeber of a valid Todo list")
             items.append(Item(card["id"], complete, card["name"]))
-        print(items)
         return items
 
     def add_item(self, title):
@@ -94,8 +93,3 @@ class Trello:
     def set_todo(self, id):
         todo_list_id, _ = self._get_lists_from_board()
         self._move_card_lists(id, todo_list_id)
-
-
-
-if __name__ == "__main__":
-    trello_api = Trello("6yxcx50y")
