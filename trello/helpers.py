@@ -21,6 +21,18 @@ class Trello:
         for key, value in kwargs.items():
             query[key] = value
         return query
+    
+    def _move_card_lists(self, id, list_id):
+        url = f"https://api.trello.com/1/cards/{id}"
+        headers = {
+            "Accept": "application/json"
+        }
+        response = requests.request(
+            "PUT",
+            url,
+            headers=headers,
+            params=self._get_query(idList=list_id)
+        )
 
     def _query_trello_boards(self, endpoint, **kwargs):
         url = f"https://api.trello.com/1/boards/{self.board_id}/{endpoint}"
@@ -77,16 +89,11 @@ class Trello:
 
     def complete_item(self, id):
         _, completed_list_id = self._get_lists_from_board()
-        url = f"https://api.trello.com/1/cards/{id}"
-        headers = {
-            "Accept": "application/json"
-        }
-        response = requests.request(
-            "PUT",
-            url,
-            headers=headers,
-            params=self._get_query(idList=completed_list_id)
-        )
+        self._move_card_lists(id, completed_list_id)
+
+    def set_todo(self, id):
+        todo_list_id, _ = self._get_lists_from_board()
+        self._move_card_lists(id, todo_list_id)
 
 
 

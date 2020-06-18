@@ -15,7 +15,18 @@ def add_title():
 
 @app.route('/')
 def index():
-    items = [{**item, **{"url": f"{url_for('complete_items',id=item['id'])}"}} for item in trello_board.get_items()]
+    items = [
+        {
+            **item,
+            **{"url": f"{url_for('complete_items',id=item['id'])}"}
+        } for item in trello_board.get_items() if item["status"] == "Not Started"
+    ]
+    items += [
+        {
+            **item,
+            **{"url": f"{url_for('undo_complete',id=item['id'])}"}
+        } for item in trello_board.get_items() if item["status"] == "Completed"
+    ]
     return render_template('index.html', items=sorted(items, key=lambda item: item['status'], reverse=True))
 
 
@@ -32,6 +43,10 @@ def complete_items(id):
     trello_board.complete_item(id)
     return redirect(url_for('index'))
 
+@app.route('/undo_complete/<id>')
+def undo_complete(id):
+    trello_board.set_todo(id)
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run()

@@ -30,6 +30,8 @@
             <div class="mb-3">
               {% if item.status == "Not Started" %}
                 <a href="{{item.url}}" class="btn btn-success" role="button">Complete</a>
+              {% else %}
+                <a href="{{item.url}}" class="btn btn-danger" role="button">Undo</a>
               {% endif %}
             </div>
           </div>
