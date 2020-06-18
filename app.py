@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, redirect, url_for
-import session_items as session
 from trello.helpers import Trello
 
 app = Flask(__name__)
