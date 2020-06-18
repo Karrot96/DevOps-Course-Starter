@@ -62,7 +62,8 @@ class Trello:
                 status = "Completed"
             else:
                 raise ValueError(f"{card['name']} is not a memeber of a valid Todo list")
-            items.append({ 'id': card["idShort"], 'status': status, 'title': card["name"] })
+            items.append({ 'id': card["id"], 'status': status, 'title': card["name"] })
+        print(items)
         return items
 
     def add_item(self, title):
@@ -73,9 +74,21 @@ class Trello:
             url,
             params=self._get_query(idList=todo_list_id, name=title)
         )
-        print(response.text)
+
+    def complete_item(self, id):
+        _, completed_list_id = self._get_lists_from_board()
+        url = f"https://api.trello.com/1/cards/{id}"
+        headers = {
+            "Accept": "application/json"
+        }
+        response = requests.request(
+            "PUT",
+            url,
+            headers=headers,
+            params=self._get_query(idList=completed_list_id)
+        )
+
 
 
 if __name__ == "__main__":
     trello_api = Trello("6yxcx50y")
-    trello_api.add_item("API POST Test 1")
