@@ -15,7 +15,7 @@ def add_title():
 
 @app.route('/')
 def index():
-    items = trello_board.get_items()
+    items = [{**item, **{"url": f"{url_for('complete_items',id=item['id'])}"}} for item in trello_board.get_items()]
     return render_template('index.html', items=sorted(items, key=lambda item: item['status'], reverse=True))
 
 
@@ -25,9 +25,11 @@ def update_items():
         item_completed = request.form.get(str(item['id']))
         if item_completed == "on":
             trello_board.complete_item(item["id"])
-        # if item_completed is None:
-        #     item['status'] = "Not Started"
-        #     session.save_item(item)
+    return redirect(url_for('index'))
+
+@app.route('/complete_items/<id>')
+def complete_items(id):
+    trello_board.complete_item(id)
     return redirect(url_for('index'))
 
 
