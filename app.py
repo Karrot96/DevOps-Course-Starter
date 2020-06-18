@@ -4,9 +4,31 @@ import session_items as session
 app = Flask(__name__)
 app.config.from_object('flask_config.Config')
 
+
+@app.route('/', methods=['POST'])
+def add_title():
+    session.add_item(request.form.get('title'))
+    return redirect(url_for('index'))
+
+
 @app.route('/')
 def index():
-    return 'Hello World!'
+    items = session.get_items()
+    return render_template('index.html', items=sorted(items, key=lambda item: item['status'], reverse=True))
+
+
+@app.route('/update_items', methods=['POST'])
+def update_items():
+    for item in session.get_items():
+        item_completed = request.form.get(str(item['id']))
+        if item_completed == "on":
+            item['status'] = "Completed"
+            session.save_item(item)
+        if item_completed is None:
+            item['status'] = "Not Started"
+            session.save_item(item)
+    return redirect(url_for('index'))
+
 
 if __name__ == '__main__':
     app.run()
