@@ -13,13 +13,8 @@ def add_title():
 
 @app.route('/')
 def index():
-    def status_sort(item):
-        if item['status'] == "Not Started":
-            return 1
-        else:
-            return 2
     items = session.get_items()
-    return render_template('index.html', items=sorted(items, key=status_sort))
+    return render_template('index.html', items=sorted(items, key=lambda item: item['status'], reverse=True))
 
 
 @app.route('/update_items', methods=['POST'])
