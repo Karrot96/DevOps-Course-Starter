@@ -1,6 +1,6 @@
 import requests
 import json
-
+from Items.item import Item
 class Trello:
 
     key = ""
@@ -69,12 +69,12 @@ class Trello:
         items = []
         for card in self.get_cards_from_board():
             if card["idList"] == todo_list_id:
-                status = "Not Started"
+                complete = False
             elif card["idList"] == completed_list_id:
-                status = "Completed"
+                complete = True
             else:
                 raise ValueError(f"{card['name']} is not a memeber of a valid Todo list")
-            items.append({ 'id': card["id"], 'status': status, 'title': card["name"] })
+            items.append(Item(card["id"], complete, card["name"]))
         print(items)
         return items
 

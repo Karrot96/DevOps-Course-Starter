@@ -14,28 +14,15 @@ def add_title():
 
 @app.route('/')
 def index():
+    get_items = trello_board.get_items()
     items = [
-        {
-            **item,
-            **{"url": f"{url_for('complete_items',id=item['id'])}"}
-        } for item in trello_board.get_items() if item["status"] == "Not Started"
+        item.add_url(url_for('complete_items', id=item.id)) for item in get_items if not item.completed
     ]
     items += [
-        {
-            **item,
-            **{"url": f"{url_for('undo_complete',id=item['id'])}"}
-        } for item in trello_board.get_items() if item["status"] == "Completed"
+        item.add_url(url_for('undo_complete', id=item.id)) for item in get_items if item.completed
     ]
-    return render_template('index.html', items=sorted(items, key=lambda item: item['status'], reverse=True))
-
-
-@app.route('/update_items', methods=['POST'])
-def update_items():
-    for item in trello_board.get_items():
-        item_completed = request.form.get(str(item['id']))
-        if item_completed == "on":
-            trello_board.complete_item(item["id"])
-    return redirect(url_for('index'))
+    print(items)
+    return render_template('index.html', items=sorted(items, key=lambda item: item.completed))
 
 @app.route('/complete_items/<id>')
 def complete_items(id):
