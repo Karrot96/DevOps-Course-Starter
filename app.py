@@ -9,7 +9,7 @@ trello_board = Trello("6yxcx50y")
 
 @app.route('/', methods=['POST'])
 def add_title():
-    session.add_item(request.form.get('title'))
+    trello_board.add_item(request.form.get('title'))
     return redirect(url_for('index'))
 
 

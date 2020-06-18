@@ -22,7 +22,7 @@ class Trello:
             query[key] = value
         return query
 
-    def _query_trell_boards(self, endpoint, **kwargs):
+    def _query_trello_boards(self, endpoint, **kwargs):
         url = f"https://api.trello.com/1/boards/{self.board_id}/{endpoint}"
         headers = {
             "Accept": "application/json"
@@ -37,10 +37,10 @@ class Trello:
         return (response.json())
 
     def get_cards_from_board(self):
-        return self._query_trell_boards("cards")
+        return self._query_trello_boards("cards")
 
     def _get_lists_from_board(self):
-        lists = self._query_trell_boards("lists")
+        lists = self._query_trello_boards("lists")
         todo_list_id = ""
         completed_list_id = ""
         for list_items in lists:
@@ -65,6 +65,17 @@ class Trello:
             items.append({ 'id': card["idShort"], 'status': status, 'title': card["name"] })
         return items
 
+    def add_item(self, title):
+        todo_list_id, _ = self._get_lists_from_board()
+        url = "https://api.trello.com/1/cards"
+        response = requests.request(
+            "POST",
+            url,
+            params=self._get_query(idList=todo_list_id, name=title)
+        )
+        print(response.text)
+
 
 if __name__ == "__main__":
     trello_api = Trello("6yxcx50y")
+    trello_api.add_item("API POST Test 1")
