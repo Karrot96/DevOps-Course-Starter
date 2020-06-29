@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
-from trello.helpers import Trello
+from trello.trello_api import TrelloAPI
+from config.settings import TRELLO_BOARD_ID
 
 app = Flask(__name__)
-app.config.from_object('flask_config.Config')
-trello_board = Trello("6yxcx50y")
+trello_board = TrelloAPI(TRELLO_BOARD_ID)
 
 
 @app.route('/', methods=['POST'])

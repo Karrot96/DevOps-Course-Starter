@@ -1,7 +1,9 @@
 import requests
 import json
 from Items.item import Item
-class Trello:
+
+
+class TrelloAPI:
 
     key = ""
     token = ""
@@ -21,7 +23,7 @@ class Trello:
         for key, value in kwargs.items():
             query[key] = value
         return query
-    
+
     def _move_card_lists(self, id, list_id):
         url = f"https://api.trello.com/1/cards/{id}"
         headers = {
@@ -73,7 +75,7 @@ class Trello:
             elif card["idList"] == completed_list_id:
                 complete = True
             else:
-                raise ValueError(f"{card['name']} is not a memeber of a valid Todo list")
+                raise ValueError(f"{card['name']} is not a member of a valid Todo list")
             items.append(Item(card["id"], complete, card["name"]))
         return items
 
