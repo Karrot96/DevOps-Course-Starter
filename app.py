@@ -1,34 +1,37 @@
 from flask import Flask, render_template, request, redirect, url_for
-import session_items as session
+from trello.trello_api import TrelloAPI
+from config.settings import TRELLO_BOARD_ID
 
 app = Flask(__name__)
-app.config.from_object('flask_config.Config')
+trello_board = TrelloAPI(TRELLO_BOARD_ID)
 
 
 @app.route('/', methods=['POST'])
 def add_title():
-    session.add_item(request.form.get('title'))
+    trello_board.add_item(request.form.get('title'))
     return redirect(url_for('index'))
 
 
 @app.route('/')
 def index():
-    items = session.get_items()
-    return render_template('index.html', items=sorted(items, key=lambda item: item['status'], reverse=True))
+    get_items = trello_board.get_items()
+    items = [
+        item.add_url(url_for('complete_items', id=item.id)) for item in get_items if not item.completed
+    ]
+    items += [
+        item.add_url(url_for('undo_complete', id=item.id)) for item in get_items if item.completed
+    ]
+    return render_template('index.html', items=sorted(items, key=lambda item: item.completed))
 
-
-@app.route('/update_items', methods=['POST'])
-def update_items():
-    for item in session.get_items():
-        item_completed = request.form.get(str(item['id']))
-        if item_completed == "on":
-            item['status'] = "Completed"
-            session.save_item(item)
-        if item_completed is None:
-            item['status'] = "Not Started"
-            session.save_item(item)
+@app.route('/complete_items/<id>')
+def complete_items(id):
+    trello_board.complete_item(id)
     return redirect(url_for('index'))
 
+@app.route('/undo_complete/<id>')
+def undo_complete(id):
+    trello_board.set_todo(id)
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run()
