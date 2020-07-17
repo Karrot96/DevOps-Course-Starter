@@ -15,13 +15,7 @@ def add_title():
 
 @app.route('/')
 def index():
-    get_items = trello_board.get_items()
-    items = [
-        item.add_url(url_for('complete_items', id=item.id)) for item in get_items if not item.completed
-    ]
-    items += [
-        item.add_url(url_for('undo_complete', id=item.id)) for item in get_items if item.completed
-    ]
+    items = trello_board.get_items()
     item_view_model = ViewModel(items)
     return render_template('index.html', view_model=item_view_model)
 

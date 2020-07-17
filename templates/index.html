@@ -18,8 +18,29 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <h2>Items</h2>
-        {% for item in view_model.items %}
+      <h2>ToDo Items</h2>
+        {% for item in view_model.uncompleted_items %}
+          <div class="row">
+            <div class="col-sm">
+              {{item.title}}
+            </div>
+            <div class="col-sm">
+              {{item.status}}
+            </div>
+            <div class="mb-3">
+              {% if not item.completed %}
+                <a href="{{item.url}}" class="btn btn-success" role="button">Complete</a>
+              {% else %}
+                <a href="{{item.url}}" class="btn btn-danger" role="button">Undo</a>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </form>
+    </div>
+    <div class="col-md-12">
+      <h2>Completed Items</h2>
+        {% for item in view_model.completed_items %}
           <div class="row">
             <div class="col-sm">
               {{item.title}}
