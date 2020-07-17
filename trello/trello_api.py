@@ -1,6 +1,6 @@
 import requests
 import json
-from Items.item import Item
+from Models.item import Item
 
 
 class TrelloAPI:
