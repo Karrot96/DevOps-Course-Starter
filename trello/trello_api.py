@@ -5,9 +5,6 @@ from Items.item import Item
 
 class TrelloAPI:
 
-    key = ""
-    token = ""
-
     def __init__(self, board_id):
         with open("secrets/trello_secrets.json", "r") as json_file:
             data = json.load(json_file)
@@ -18,7 +15,8 @@ class TrelloAPI:
     def _get_query(self, **kwargs):
         query = {
             "key": self.key,
-            "token": self.token
+            "token": self.token,
+            **kwargs
         }
         for key, value in kwargs.items():
             query[key] = value
