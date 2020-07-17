@@ -40,23 +40,70 @@
     </div>
     <div class="col-md-12">
       <h2>Completed Items</h2>
-        {% for item in view_model.completed_items %}
-          <div class="row">
-            <div class="col-sm">
-              {{item.title}}
+        {% if view_model.show_all_done_items %}
+          {% for item in view_model.completed_items %}
+            <div class="row">
+              <div class="col-sm">
+                {{item.title}}
+              </div>
+              <div class="col-sm">
+                {{item.status}}
+              </div>
+              <div class="mb-3">
+                {% if not item.completed %}
+                  <a href="{{item.url}}" class="btn btn-success" role="button">Complete</a>
+                {% else %}
+                  <a href="{{item.url}}" class="btn btn-danger" role="button">Undo</a>
+                {% endif %}
+              </div>
             </div>
-            <div class="col-sm">
-              {{item.status}}
-            </div>
-            <div class="mb-3">
-              {% if not item.completed %}
-                <a href="{{item.url}}" class="btn btn-success" role="button">Complete</a>
-              {% else %}
-                <a href="{{item.url}}" class="btn btn-danger" role="button">Undo</a>
-              {% endif %}
-            </div>
-          </div>
-        {% endfor %}
+          {% endfor %}
+        {% else %}
+          <h3> Items completed today </h3>
+          {% if view_model.completed_items|length == 0 %}
+            <p> No Items completed today </p>
+          {% else %}
+            {% for item in view_model.recent_done_items %}
+              <div class="row">
+                <div class="col-sm">
+                  {{item.title}}
+                </div>
+                <div class="col-sm">
+                  {{item.status}}
+                </div>
+                <div class="mb-3">
+                  {% if not item.completed %}
+                    <a href="{{item.url}}" class="btn btn-success" role="button">Complete</a>
+                  {% else %}
+                    <a href="{{item.url}}" class="btn btn-danger" role="button">Undo</a>
+                  {% endif %}
+                </div>
+              </div>
+            {% endfor %}
+          {% endif %}
+          {% if view_model.older_done_items|length > 0 %}
+            <details>
+              <summary> Older Completed Items </summary>
+              {% for item in view_model.older_done_items %}
+                <div class="row">
+                  <div class="col-sm">
+                    {{item.title}}
+                  </div>
+                  <div class="col-sm">
+                    {{item.status}}
+                  </div>
+                  <div class="mb-3">
+                    {% if not item.completed %}
+                      <a href="{{item.url}}" class="btn btn-success" role="button">Complete</a>
+                    {% else %}
+                      <a href="{{item.url}}" class="btn btn-danger" role="button">Undo</a>
+                    {% endif %}
+                  </div>
+                </div>
+              {% endfor %}
+            </details>
+          {% endif %}
+        {% endif %}
       </form>
     </div>
   </div>

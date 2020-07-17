@@ -1,4 +1,9 @@
 from flask import url_for
+from datetime import datetime
+
+
+def _today():
+    return datetime.date(datetime.today())
 
 
 class ViewModel:
@@ -16,6 +21,18 @@ class ViewModel:
     @property
     def completed_items(self):
         return self._completed_items
+
+    @property
+    def recent_done_items(self):
+        return [item for item in self._completed_items if datetime.date(item.last_updated) == _today()]
+
+    @property
+    def older_done_items(self):
+        return [item for item in self._completed_items if datetime.date(item.last_updated) < _today()]
+
+    @property
+    def show_all_done_items(self):
+        return len(self.completed_items) < 5
 
     def _add_urls(self, items):
         self._uncompleted_items = [

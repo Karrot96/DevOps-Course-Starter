@@ -74,7 +74,7 @@ class TrelloAPI:
                 complete = True
             else:
                 raise ValueError(f"{card['name']} is not a member of a valid Todo list")
-            items.append(Item(card["id"], complete, card["name"]))
+            items.append(Item(card["id"], complete, card["name"], card["dateLastActivity"]))
         return items
 
     def add_item(self, title):
