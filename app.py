@@ -3,8 +3,14 @@ from trello.trello_api import TrelloAPI
 from config.settings import TRELLO_BOARD_ID
 from Models.view_model import ViewModel
 
-app = Flask(__name__)
-trello_board = TrelloAPI(TRELLO_BOARD_ID)
+
+def create_app():
+    app = Flask(__name__)
+    trello_board = TrelloAPI(TRELLO_BOARD_ID)
+    return app, trello_board
+
+
+app, trello_board = create_app()
 
 
 @app.route('/', methods=['POST'])
@@ -32,5 +38,3 @@ def undo_complete(id):
     return redirect(url_for('index'))
 
 
-if __name__ == '__main__':
-    app.run()
