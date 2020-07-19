@@ -56,7 +56,6 @@ class TrelloAPI:
         todo_list_id = ""
         completed_list_id = ""
         for list_items in lists:
-            print(list_items)
             if list_items["name"] == "Not Started":
                 todo_list_id = list_items["id"]
                 continue
