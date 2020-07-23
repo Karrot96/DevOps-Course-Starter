@@ -45,9 +45,29 @@ def test_task_journey(driver, test_app):
 
     # Check the new item exists on the page.
     assert "e2e_test" in driver.page_source
+    assert "e2e_test_ToDo" in driver.page_source
+
+    # Check can move to in progress
+    complete_button = driver.find_element_by_name("e2e_test_ToDo")
+    complete_button.click()
+
+    time.sleep(1)
+
+    # Check the in progress item exists on the page.
+    assert "e2e_test" in driver.page_source
+    assert "e2e_test_Doing" in driver.page_source
+
+    # Check can move to completed
+    complete_button = driver.find_element_by_name("e2e_test_Doing")
+    complete_button.click()
+
+    time.sleep(1)
+
+    # Check the item still exists and that the correct button shows up
+    assert "e2e_test" in driver.page_source
     assert "e2e_test_Complete" in driver.page_source
 
-    # Check can complete and item
+    # Check can undo completed and item
     complete_button = driver.find_element_by_name("e2e_test_Complete")
     complete_button.click()
 
@@ -55,14 +75,4 @@ def test_task_journey(driver, test_app):
 
     # Check the item still exists and that the correct button shows up
     assert "e2e_test" in driver.page_source
-    assert "e2e_test_Undo" in driver.page_source
-
-    # Check can undo completed and item
-    complete_button = driver.find_element_by_name("e2e_test_Undo")
-    complete_button.click()
-
-    time.sleep(1)
-
-    # Check the item still exists and that the correct button shows up
-    assert "e2e_test" in driver.page_source
-    assert "e2e_test_Complete" in driver.page_source
+    assert "e2e_test_ToDo" in driver.page_source

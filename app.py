@@ -9,13 +9,10 @@ def create_app():
     # app.config.from_object('app_config.Config')
     trello_board = TrelloAPI(os.environ['TRELLO_BOARD_ID'])
 
-
-
     @app.route('/', methods=['POST'])
     def add_title():
         trello_board.add_item(request.form.get('title'))
         return redirect(url_for('index'))
-
 
     @app.route('/')
     def index():
@@ -23,12 +20,16 @@ def create_app():
         item_view_model = ViewModel(items)
         return render_template('index.html', view_model=item_view_model)
 
-
     @app.route('/complete_items/<id>')
     def complete_items(id):
         trello_board.complete_item(id)
         return redirect(url_for('index'))
 
+
+    @app.route('/move_todo/<id>')
+    def set_doing(id):
+        trello_board.set_doing(id)
+        return redirect(url_for('index'))
 
     @app.route('/undo_complete/<id>')
     def undo_complete(id):

@@ -1,5 +1,6 @@
 from flask import url_for
 from datetime import datetime
+from Models.item import Status
 
 
 def _today():
@@ -12,7 +13,7 @@ class ViewModel:
 
     @property
     def items(self):
-        return self._uncompleted_items + self._completed_items
+        return self._uncompleted_items + self.doing_items + self._completed_items
 
     @property
     def uncompleted_items(self):
@@ -21,6 +22,10 @@ class ViewModel:
     @property
     def completed_items(self):
         return self._completed_items
+
+    @property
+    def doing_items(self):
+        return self._doing_items
 
     @property
     def recent_done_items(self):
@@ -37,11 +42,16 @@ class ViewModel:
     def _add_urls(self, items):
         self._uncompleted_items = [
             item.add_url(
+                url_for('set_doing', id=item.id)
+            ) for item in items if item.status == Status.TODO
+        ]
+        self._doing_items = [
+            item.add_url(
                 url_for('complete_items', id=item.id)
-            ) for item in items if not item.completed
+            ) for item in items if item.status == Status.DOING
         ]
         self._completed_items = [
             item.add_url(
                 url_for('undo_complete', id=item.id)
-            ) for item in items if item.completed
+            ) for item in items if item.status == Status.DONE
         ]

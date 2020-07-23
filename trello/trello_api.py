@@ -1,6 +1,6 @@
 import requests
 import json
-from Models.item import Item
+from Models.item import Item, Status
 
 
 class TrelloAPI:
@@ -80,30 +80,36 @@ class TrelloAPI:
         lists = self._query_trello_boards("lists")
         todo_list_id = ""
         completed_list_id = ""
+        doing_list_id = ""
         for list_items in lists:
             if list_items["name"] == "To Do":
                 todo_list_id = list_items["id"]
                 continue
+            if list_items["name"] == "Doing":
+                doing_list_id = list_items["id"]
+                continue
             if list_items["name"] == "Done":
                 completed_list_id = list_items["id"]
                 continue
-        return todo_list_id, completed_list_id
+        return todo_list_id, completed_list_id, doing_list_id
 
     def get_items(self):
-        todo_list_id, completed_list_id = self._get_lists_from_board()
+        todo_list_id, completed_list_id, doing_list_id = self._get_lists_from_board()
         items = []
         for card in self.get_cards_from_board():
             if card["idList"] == todo_list_id:
-                complete = False
+                status = Status.TODO
+            elif card["idList"] == doing_list_id:
+                status = Status.DOING
             elif card["idList"] == completed_list_id:
-                complete = True
+                status = Status.DONE
             else:
                 raise ValueError(f"{card['name']} is not a member of a valid Todo list")
-            items.append(Item(card["id"], complete, card["name"], card["dateLastActivity"]))
+            items.append(Item(card["id"], status, card["name"], card["dateLastActivity"]))
         return items
 
     def add_item(self, title):
-        todo_list_id, _ = self._get_lists_from_board()
+        todo_list_id, _, _= self._get_lists_from_board()
         url = "https://api.trello.com/1/cards"
         response = requests.request(
             "POST",
@@ -112,11 +118,15 @@ class TrelloAPI:
         )
 
     def complete_item(self, id):
-        _, completed_list_id = self._get_lists_from_board()
+        _, completed_list_id, _ = self._get_lists_from_board()
         self._move_card_lists(id, completed_list_id)
 
+    def set_doing(self, id):
+        _, _, doing_list_id = self._get_lists_from_board()
+        self._move_card_lists(id, doing_list_id)
+
     def set_todo(self, id):
-        todo_list_id, _ = self._get_lists_from_board()
+        todo_list_id, _, _ = self._get_lists_from_board()
         self._move_card_lists(id, todo_list_id)
 
 

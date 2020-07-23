@@ -25,14 +25,27 @@
               {{item.title}}
             </div>
             <div class="col-sm">
-              {{item.status}}
+              {{item.status.name}}
             </div>
             <div class="mb-3" name="ActionButtons">
-                  {% if not item.completed %}
-                    <a href="{{item.url}}" class="btn btn-success" role="button" name="{{item.title}}_Complete">Complete</a>
-                  {% else %}
-                    <a href="{{item.url}}" class="btn btn-danger" role="button" name="{{item.title}}_Undo">Undo</a>
-                  {% endif %}
+                  <a href="{{item.url}}" class="btn btn-success" role="button" name="{{item.title}}_ToDo">In Progress</a>
+                </div>
+          </div>
+        {% endfor %}
+      </form>
+    </div>
+    <div class="col-md-12">
+      <h2>In Progress Items Items</h2>
+        {% for item in view_model.doing_items %}
+          <div class="row">
+            <div class="col-sm">
+              {{item.title}}
+            </div>
+            <div class="col-sm">
+              {{item.status.name}}
+            </div>
+            <div class="mb-3" name="ActionButtons">
+                  <a href="{{item.url}}" class="btn btn-success" role="button" name="{{item.title}}_Doing">Complete</a>
                 </div>
           </div>
         {% endfor %}
@@ -47,14 +60,10 @@
                 {{item.title}}
               </div>
               <div class="col-sm">
-                {{item.status}}
+                {{item.status.name}}
               </div>
               <div class="mb-3" name="ActionButtons">
-                  {% if not item.completed %}
-                    <a href="{{item.url}}" class="btn btn-success" role="button" name="{{item.title}}_Complete">Complete</a>
-                  {% else %}
-                    <a href="{{item.url}}" class="btn btn-danger" role="button" name="{{item.title}}_Undo">Undo</a>
-                  {% endif %}
+                  <a href="{{item.url}}" class="btn btn-danger" role="button" name="{{item.title}}_Complete">Undo</a>
                 </div>
             </div>
           {% endfor %}
@@ -69,14 +78,10 @@
                   {{item.title}}
                 </div>
                 <div class="col-sm">
-                  {{item.status}}
+                  {{item.status.name}}
                 </div>
                 <div class="mb-3" name="ActionButtons">
-                  {% if not item.completed %}
-                    <a href="{{item.url}}" class="btn btn-success" role="button" name="{{item.title}}_Complete">Complete</a>
-                  {% else %}
-                    <a href="{{item.url}}" class="btn btn-danger" role="button" name="{{item.title}}_Undo">Undo</a>
-                  {% endif %}
+                  <a href="{{item.url}}" class="btn btn-success" role="button" name="{{item.title}}_Complete">Undo</a>
                 </div>
               </div>
             {% endfor %}
@@ -90,14 +95,10 @@
                     {{item.title}}
                   </div>
                   <div class="col-sm">
-                    {{item.status}}
+                    {{item.status.name}}
                   </div>
                   <div class="mb-3" name="ActionButtons">
-                    {% if not item.completed %}
-                      <a href="{{item.url}}" class="btn btn-success" role="button" name="{{item.title}}_Complete">Complete</a>
-                    {% else %}
-                      <a href="{{item.url}}" class="btn btn-danger" role="button" name="{{item.title}}_Undo">Undo</a>
-                    {% endif %}
+                    <a href="{{item.url}}" class="btn btn-success" role="button" name="{{item.title}}_Complete">Undo</a>
                   </div>
                 </div>
               {% endfor %}
