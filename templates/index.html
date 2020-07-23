@@ -27,13 +27,13 @@
             <div class="col-sm">
               {{item.status}}
             </div>
-            <div class="mb-3">
-              {% if not item.completed %}
-                <a href="{{item.url}}" class="btn btn-success" role="button">Complete</a>
-              {% else %}
-                <a href="{{item.url}}" class="btn btn-danger" role="button">Undo</a>
-              {% endif %}
-            </div>
+            <div class="mb-3" name="ActionButtons">
+                  {% if not item.completed %}
+                    <a href="{{item.url}}" class="btn btn-success" role="button" name="{{item.title}}_Complete">Complete</a>
+                  {% else %}
+                    <a href="{{item.url}}" class="btn btn-danger" role="button" name="{{item.title}}_Undo">Undo</a>
+                  {% endif %}
+                </div>
           </div>
         {% endfor %}
       </form>
@@ -49,13 +49,13 @@
               <div class="col-sm">
                 {{item.status}}
               </div>
-              <div class="mb-3">
-                {% if not item.completed %}
-                  <a href="{{item.url}}" class="btn btn-success" role="button">Complete</a>
-                {% else %}
-                  <a href="{{item.url}}" class="btn btn-danger" role="button">Undo</a>
-                {% endif %}
-              </div>
+              <div class="mb-3" name="ActionButtons">
+                  {% if not item.completed %}
+                    <a href="{{item.url}}" class="btn btn-success" role="button" name="{{item.title}}_Complete">Complete</a>
+                  {% else %}
+                    <a href="{{item.url}}" class="btn btn-danger" role="button" name="{{item.title}}_Undo">Undo</a>
+                  {% endif %}
+                </div>
             </div>
           {% endfor %}
         {% else %}
@@ -71,11 +71,11 @@
                 <div class="col-sm">
                   {{item.status}}
                 </div>
-                <div class="mb-3">
+                <div class="mb-3" name="ActionButtons">
                   {% if not item.completed %}
-                    <a href="{{item.url}}" class="btn btn-success" role="button">Complete</a>
+                    <a href="{{item.url}}" class="btn btn-success" role="button" name="{{item.title}}_Complete">Complete</a>
                   {% else %}
-                    <a href="{{item.url}}" class="btn btn-danger" role="button">Undo</a>
+                    <a href="{{item.url}}" class="btn btn-danger" role="button" name="{{item.title}}_Undo">Undo</a>
                   {% endif %}
                 </div>
               </div>
@@ -92,11 +92,11 @@
                   <div class="col-sm">
                     {{item.status}}
                   </div>
-                  <div class="mb-3">
+                  <div class="mb-3" name="ActionButtons">
                     {% if not item.completed %}
-                      <a href="{{item.url}}" class="btn btn-success" role="button">Complete</a>
+                      <a href="{{item.url}}" class="btn btn-success" role="button" name="{{item.title}}_Complete">Complete</a>
                     {% else %}
-                      <a href="{{item.url}}" class="btn btn-danger" role="button">Undo</a>
+                      <a href="{{item.url}}" class="btn btn-danger" role="button" name="{{item.title}}_Undo">Undo</a>
                     {% endif %}
                   </div>
                 </div>

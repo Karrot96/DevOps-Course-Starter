@@ -2,15 +2,10 @@
 
 ## Getting started
 
-The project uses a virtual environment to isolate package dependencies. To create the virtual environment and install required packages, run the following from a bash shell terminal:
+The project uses a poetry to isolate package dependencies. To get poetry running install poetry for python and then run:
 
-### On macOS and Linux
 ```bash
-$ source setup.sh
-```
-### On Windows (Using Git Bash)
-```bash
-$ source setup.sh --windows
+poetry install
 ```
 
 ## Trello
@@ -24,15 +19,15 @@ To set up trello add your token and key to a json file stored as `secrets/trello
 }
 ```
 
-In the file `config/settings.py` you should set the constant `TRELLO_BOARD_ID` to your trello board ID.
+In the environment file you should set the constant `TRELLO_BOARD_ID` to your trello board ID.
 
 The trello lists required in the project are:
-- `Not Started`
-- `Completed`
+- `To Do`
+- `Done`
 
 Once the setup script has completed and all packages have been installed, start the Flask app by running:
 ```bash
-$ flask run
+$ poetry run flask run
 ```
 
 You should see output similar to the following:
@@ -46,3 +41,29 @@ You should see output similar to the following:
  * Debugger PIN: 226-556-590
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
+
+## Testing
+
+### Unit Tests
+
+Unit tests can be run with the following command
+
+```bash
+poetry run pytest tests
+```
+
+### Integration Tests
+
+Integration Tests can be run with the following command
+
+```bash
+poetry run pytest integration_tests
+```
+
+### End-2-End Tests
+
+Make sure you have geckodriver installed and in the path.
+Tests can then be run with the following command
+
+```bash
+poetry run pytest e2e_test

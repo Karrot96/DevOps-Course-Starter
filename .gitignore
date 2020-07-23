@@ -115,13 +115,11 @@ env/
 ### Configuration files ###
 .env
 
-
-# poetry
-poetry.lock
-pyproject.toml
-
 # Vscode settings
 .vscode
 
 # Secrets
 secrets/
+
+# geckodriver
+geckodriver*

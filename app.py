@@ -1,13 +1,13 @@
 from flask import Flask, render_template, request, redirect, url_for
+import os
 from trello.trello_api import TrelloAPI
-from config.settings import TRELLO_BOARD_ID
 from Models.view_model import ViewModel
 
 
 def create_app():
     app = Flask(__name__)
     # app.config.from_object('app_config.Config')
-    trello_board = TrelloAPI(TRELLO_BOARD_ID)
+    trello_board = TrelloAPI(os.environ['TRELLO_BOARD_ID'])
 
 
 
@@ -33,6 +33,11 @@ def create_app():
     @app.route('/undo_complete/<id>')
     def undo_complete(id):
         trello_board.set_todo(id)
+        return redirect(url_for('index'))
+
+    @app.route('/create_board/<name>')
+    def create_board(name):
+        trello_board.create_board(name)
         return redirect(url_for('index'))
 
     return app

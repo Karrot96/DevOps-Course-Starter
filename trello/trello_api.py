@@ -5,7 +5,7 @@ from Models.item import Item
 
 class TrelloAPI:
 
-    def __init__(self, board_id):
+    def __init__(self, board_id=""):
         with open("secrets/trello_secrets.json", "r") as json_file:
             data = json.load(json_file)
             self.key = data["key"]
@@ -48,6 +48,31 @@ class TrelloAPI:
 
         return (response.json())
 
+    def _create_trello_board(self, **kwargs):
+        url = "https://api.trello.com/1/boards/"
+
+        response = requests.request(
+            "POST",
+            url,
+            params=self._get_query(**kwargs)
+        )
+        return(response.json())
+
+    def delete_trello_board(self, **kwargs):
+        url = f"https://api.trello.com/1/boards/{self.board_id}"
+
+        response = requests.request(
+            "DELETE",
+            url,
+            params=self._get_query(**kwargs)
+        )
+
+    def create_board(cls, name):
+        new_board = cls._create_trello_board(name=name)
+        short_url = new_board['shortUrl']
+        new_board_id = short_url.split('/')[-1]
+        return TrelloAPI(new_board_id)
+
     def get_cards_from_board(self):
         return self._query_trello_boards("cards")
 
@@ -56,10 +81,10 @@ class TrelloAPI:
         todo_list_id = ""
         completed_list_id = ""
         for list_items in lists:
-            if list_items["name"] == "Not Started":
+            if list_items["name"] == "To Do":
                 todo_list_id = list_items["id"]
                 continue
-            if list_items["name"] == "Completed":
+            if list_items["name"] == "Done":
                 completed_list_id = list_items["id"]
                 continue
         return todo_list_id, completed_list_id
@@ -93,3 +118,8 @@ class TrelloAPI:
     def set_todo(self, id):
         todo_list_id, _ = self._get_lists_from_board()
         self._move_card_lists(id, todo_list_id)
+
+
+if __name__ == "__main__":
+    x = TrelloAPI("")
+    x._create_trello_board(name="test")

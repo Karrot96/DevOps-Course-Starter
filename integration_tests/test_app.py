@@ -2,7 +2,7 @@ import pytest
 from trello.trello_api import TrelloAPI
 
 DATE = '2020-01-03T12:00:00Z'
-COMPLETED_ID = '5eeb34b895d54b77a6bcb8fd'
+DONE_ID = '5eeb34b895d54b77a6bcb8fd'
 TODO_ID = '5aab34b895d54b77a6bcb8fd'
 
 @pytest.fixture(autouse=True)
@@ -12,7 +12,7 @@ def mock_trello_get_requests(monkeypatch):
             {
                 'id': '1234567',
                 'dateLastActivity': DATE,
-                'idList': COMPLETED_ID,
+                'idList': DONE_ID,
                 'name': 'DateName'
             },
             {
@@ -29,12 +29,12 @@ def mock_trello_get_lists(monkeypatch):
     def mock_trello_get_lists_return(*args, **kwargs):
         return [
             {
-                'id': COMPLETED_ID,
-                'name': 'Completed'
+                'id': DONE_ID,
+                'name': 'Done'
             },
             {
                 'id': TODO_ID,
-                'name': 'Not Started'
+                'name': 'To Do'
             }
         ]
     monkeypatch.setattr(TrelloAPI, "_query_trello_boards", mock_trello_get_lists_return)
