@@ -40,20 +40,18 @@ def completed_item():
 
 @pytest.fixture
 def doing_item():
-    return Item(2, Status.DOING, "Item3", DATE_FOR_USE)
+    return Item(3, Status.DOING, "Item3", DATE_FOR_USE)
 
 
 def test_view_model_returns_all_items(completed_item, uncompleted_item, doing_item):
     items = [
         uncompleted_item,
-        completed_item,
-        doing_item
+        doing_item,
+        completed_item
     ]
     view_model_output = ViewModel(items)
 
-    assert uncompleted_item in view_model_output.items
-    assert completed_item in view_model_output.items
-    assert doing_item in view_model_output.items
+    assert items == view_model_output.items
 
 
 def test_view_model_returns_only_completed_items(completed_item, uncompleted_item, doing_item):

@@ -66,4 +66,4 @@ Make sure you have geckodriver installed and in the path.
 Tests can then be run with the following command
 
 ```bash
-poetry run pytest e2e_test
+poetry run pytest e2e_tests

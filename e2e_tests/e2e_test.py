@@ -6,12 +6,16 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
+from dotenv import load_dotenv
 
 @pytest.fixture(scope='module')
 def test_app():
     # Create the new board & update the board id environment variable
     trello_board = TrelloAPI().create_board("SeleniumTest")
     os.environ['TRELLO_BOARD_ID'] = trello_board.board_id
+    # Use our test config instead of the 'real' version
+    file_path = find_dotenv('.env.test')
+    load_dotenv(file_path, override=True)
     # construct the new application
     application = app.create_app()
     # start the app in its own thread.
