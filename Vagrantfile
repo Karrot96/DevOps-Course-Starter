@@ -23,14 +23,16 @@ Vagrant.configure("2") do |config|
     echo 'export PATH="/home/vagrant/.poetry/bin:$PATH"' >> /home/vagrant/.profile
     export PATH="/home/vagrant/.poetry/bin:$PATH"
   SHELL
-  
+
+  config.vm.network "forwarded_port", guest: 5000, host: 5000
+
   config.trigger.after :up do |trigger|
     trigger.name = "Launching App"
     trigger.info = "Running the TODO app setup Script"
-    trigger.run_remote = {privaledged: false, inline: "
+    trigger.run_remote = {privileged: false, inline: "
       cd /vagrant
       poetry install
-      poetry run flask run
+      poetry run flask run --host=0.0.0.0
     "}
-
+  end
 end
