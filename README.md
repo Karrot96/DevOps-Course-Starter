@@ -67,3 +67,14 @@ Tests can then be run with the following command
 
 ```bash
 poetry run pytest e2e_tests
+```
+
+## Vagrant
+
+To run the app file in vagrant run:
+```bash
+vagrant up
+```
+
+then navigate to http://localhost:5000
+
