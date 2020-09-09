@@ -21,12 +21,12 @@ FROM base as production
 
 EXPOSE 8000
 ENTRYPOINT [ "./run.sh", "prod"]
-RUN poetry install --no-dev
+RUN poetry install --no-dev --no-root
 COPY todo_app ./todo_app
 
 FROM base as development
 
 EXPOSE 5000
 ENTRYPOINT [ "./run.sh", "dev"]
-RUN poetry install
+RUN poetry install --no-root
 
