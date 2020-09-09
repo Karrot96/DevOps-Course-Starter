@@ -1,5 +1,5 @@
 import pytest
-from trello.trello_api import TrelloAPI
+from todo_app.trello.trello_api import TrelloAPI
 
 DATE = '2020-01-03T12:00:00Z'
 DONE_ID = '5eeb34b895d54b77a6bcb8fd'

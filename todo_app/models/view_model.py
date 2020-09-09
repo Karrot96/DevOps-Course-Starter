@@ -1,6 +1,6 @@
 from flask import url_for
 from datetime import datetime
-from Models.item import Status
+from todo_app.models.item import Status
 
 
 def _today():
