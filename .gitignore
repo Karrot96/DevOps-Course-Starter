@@ -123,3 +123,6 @@ secrets/
 
 # geckodriver
 geckodriver*
+
+#vagrant
+.vagrant/

@@ -1,15 +1,13 @@
 import requests
-import json
 from Models.item import Item, Status
+import os
 
 
 class TrelloAPI:
 
     def __init__(self, board_id=""):
-        with open("secrets/trello_secrets.json", "r") as json_file:
-            data = json.load(json_file)
-            self.key = data["key"]
-            self.token = data["token"]
+        self.key = os.environ['TRELLO_API_KEY']
+        self.token = os.environ['TRELLO_API_TOKEN']
         self.board_id = board_id
 
     def _get_query(self, **kwargs):
