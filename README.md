@@ -10,19 +10,11 @@ poetry install
 
 ## Trello
 
-To set up trello add your token and key to a json file stored as `secrets/trello_secrets.json`. The file should be in the following format:
-
-```Json
-{
-    "token": "YOUR_TOKEN",
-    "key": "YOUR_KEY"
-}
-```
-
-In the environment file you should set the constant `TRELLO_BOARD_ID` to your trello board ID.
+To set up trello add your token, key and board_id to the relevent environment variables.
 
 The trello lists required in the project are:
 - `To Do`
+- `Doing`
 - `Done`
 
 Once the setup script has completed and all packages have been installed, start the Flask app by running:

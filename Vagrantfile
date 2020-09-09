@@ -6,7 +6,7 @@ Vagrant.configure("2") do |config|
     libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
     xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
     git clone https://github.com/pyenv/pyenv.git /home/vagrant/.pyenv
-    # Add envs to .profile for use with shh
+    # Add envs to .profile for use with ssh
     echo 'export PYENV_ROOT="/home/vagrant/.pyenv"' >> /home/vagrant/.profile
     echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> /home/vagrant/.profile
     echo 'eval "$(pyenv init -)"' >> /home/vagrant/.profile
@@ -14,8 +14,8 @@ Vagrant.configure("2") do |config|
     export PYENV_ROOT="/home/vagrant/.pyenv"
     export PATH="$PYENV_ROOT/bin:$PATH"
     eval "$(pyenv init -)"
-    pyenv install 3.7.8
-    pyenv global 3.7.8
+    pyenv install 3.8.5
+    pyenv global 3.8.5
     # Install and set up poetry
     curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
     mv /root/.poetry /home/vagrant/.poetry
@@ -32,7 +32,7 @@ Vagrant.configure("2") do |config|
     trigger.run_remote = {privileged: false, inline: "
       cd /vagrant
       poetry install
-      poetry run flask run --host=0.0.0.0
+      nohup poetry run flask run --host=0.0.0.0 > logs.txt 2>&1 &
     "}
   end
 end
