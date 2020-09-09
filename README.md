@@ -78,9 +78,14 @@ docker build --target production --tag todo-app:prod .
 docker run -d --env-file {Location of env file} -p 8003:8003 todo-app:prod
 ```
 
-To run development version in docker
+To run development version in docker on linux
 
 ```bash
-docker build --target development --tag todo-app:dev .
-docker run --env-file {location of env file} -p 5100:5000 --mount type=bind,source="{location of the todo_app folder}",target=/app/todo_app todo-app:dev
+run_dev.sh
+```
+
+on windows:
+
+```bash
+run_dev.bat
 ```
