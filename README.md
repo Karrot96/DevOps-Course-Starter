@@ -78,7 +78,7 @@ docker build --target production --tag todo-app:prod .
 docker run -d --env-file {Location of env file} -p 8003:8003 todo-app:prod
 ```
 
-To run development version in docker on linux
+To run development version in docker on linux using port 80.
 
 ```bash
 run_dev.sh
