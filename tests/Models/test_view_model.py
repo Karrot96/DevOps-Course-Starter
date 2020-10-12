@@ -1,6 +1,6 @@
-from Models.view_model import ViewModel
-from Models import view_model
-from Models.item import Item, Status
+from todo_app.models.view_model import ViewModel
+from todo_app.models import view_model
+from todo_app.models.item import Item, Status
 from dateutil import parser
 import pytest
 from datetime import datetime

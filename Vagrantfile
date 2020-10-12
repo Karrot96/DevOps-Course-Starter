@@ -30,7 +30,7 @@ Vagrant.configure("2") do |config|
     trigger.name = "Launching App"
     trigger.info = "Running the TODO app setup Script"
     trigger.run_remote = {privileged: false, inline: "
-      cd /vagrant
+      cd /vagrant/todo_app
       poetry install
       nohup poetry run flask run --host=0.0.0.0 > logs.txt 2>&1 &
     "}

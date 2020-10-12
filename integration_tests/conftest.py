@@ -1,14 +1,14 @@
 import pytest
 from dotenv import find_dotenv, load_dotenv
-import app
+from todo_app.app import create_app
 
 @pytest.fixture
 def client():
     # Use our test integration config instead of the 'real' version
     file_path = find_dotenv('.env.test')
-    load_dotenv(file_path, override=True)
+    load_dotenv(file_path, override=False)
     # Create the new app.
-    test_app = app.create_app()
+    test_app = create_app()
     # Use the app to create a test_client that can be used in our tests.
     with test_app.test_client() as client:
         yield client

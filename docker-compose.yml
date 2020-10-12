@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  todoapp:
+    image: todo_app:dev
+    container_name: todo_app
+    ports:
+      - "127.0.0.1:80:5000"
+    volumes:
+      - type: bind
+        source: ./todo_app
+        target: /app/todo_app
