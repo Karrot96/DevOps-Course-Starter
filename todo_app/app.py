@@ -6,7 +6,7 @@ from todo_app.models.view_model import ViewModel
 
 def create_app():
     app = Flask(__name__)
-    # app.config.from_object('app_config.Config')
+    print(os.environ)
     trello_board = TrelloAPI(os.environ['TRELLO_BOARD_ID'])
 
     @app.route('/', methods=['POST'])
