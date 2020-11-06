@@ -1,2 +1,8 @@
+services:
+  - docker
+
+before_install:
+  - docker build --target test --tag my-test-image .
+
 script:
-- echo "hello world"
+- docker run --env-file .\todo_app\.env.test my-test-image tests
