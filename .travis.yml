@@ -5,4 +5,4 @@ before_install:
   - docker build --target test --tag my-test-image .
 
 script:
-- docker run --env-file .\todo_app\.env.test my-test-image tests
+- docker run --env-file ./todo_app/.env.test my-test-image tests
