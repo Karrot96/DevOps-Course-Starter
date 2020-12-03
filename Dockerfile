@@ -45,11 +45,7 @@ apt-get install unzip -y &&\
 unzip ./chromedriver_linux64.zip
 
 RUN poetry install --no-root
-COPY tests.sh ./tests.sh
+COPY . .
 RUN chmod +x ./tests.sh
-COPY tests ./tests
-COPY integration_tests ./integration_tests
-COPY e2e_tests ./e2e_tests
-COPY todo_app ./todo_app
 
 ENTRYPOINT [ "./tests.sh" ]
