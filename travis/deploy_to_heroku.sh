@@ -6,7 +6,7 @@ echo $TRAVIS_PULL_REQUEST
 if [[ "$TRAVIS_BRANCH" == "master" ]]; then
     echo $TRAVIS_BRANCH
     echo $TRAVIS_PULL_REQUEST
-    if [[ "$TRAVIS_PULL_REQUEST" == "true" ]]; then
+    if [[ "$TRAVIS_PULL_REQUEST" != "false" ]]; then
         echo $TRAVIS_BRANCH
         echo $TRAVIS_PULL_REQUEST
         docker pull karrot96/todo-app:latest
