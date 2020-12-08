@@ -1,4 +1,4 @@
-#!/bin/bash sh
+#!/bin/bash
 
 set -ev
 if [[ "$TRAVIS_BRANCH" == "exercise8" ]]; then
