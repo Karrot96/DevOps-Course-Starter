@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash sh
 
 set -ev
 docker build --target production --tag karrot96/ToDoApp:$TRAVIS_COMMIT .
