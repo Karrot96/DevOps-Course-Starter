@@ -21,7 +21,7 @@ FROM base as production
 
 EXPOSE 8000
 ENTRYPOINT [ "./run.sh", "prod"]
-RUN poetry config virtualenvs.create false --local && poetry install --no-dev --no-root
+RUN poetry install --no-dev --no-root
 COPY todo_app ./todo_app
 
 FROM base as development
