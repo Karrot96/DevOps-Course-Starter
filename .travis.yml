@@ -3,10 +3,11 @@ services:
 
 before_install:
 - echo $DOCKER_PASSWD | docker login -u karrot96 --password-stdin
-- docker build --target test --tag karrot96/ToDoApp:$TRAVIS_COMMIT .
+- docker build --target test --tag my-test-image .
 script:
 - docker run -e TRELLO_BOARD_ID -e TRELLO_API_TOKEN -e TRELLO_API_KEY  my-test-image
 after_success:
+- docker build --target production --tag karrot96/ToDoApp:$TRAVIS_COMMIT .
 - docker push karrot96/ToDoApp:$TRAVIS_COMMIT
 - if [[ "$TRAVIS_BRANCH" == "master" ]]; then
       docker push karrot96/ToDoApp:latest
