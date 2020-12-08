@@ -2,7 +2,7 @@ services:
 - docker
 before_install:
 - echo $DOCKER_PASSWD | docker login -u karrot96 --password-stdin
-- docker build --target test --tag my-test-image .
+- docker build --target test --tag my-test-image --cache-from karrot96/todo-app .
 script:
 - docker run -e TRELLO_BOARD_ID -e TRELLO_API_TOKEN -e TRELLO_API_KEY  my-test-image
 after_success: 
