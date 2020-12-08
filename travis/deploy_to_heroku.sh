@@ -6,7 +6,7 @@ if [[ "$TRAVIS_BRANCH" == "master" ]]; then
         docker pull karrot96/todo-app:latest
         docker tag karrot96/todo-app:latest registry.heroku.com/karro96-todo-app/web
         docker push registry.heroku.com/karro96-todo-app/web
-        heroku login 
+        heroku container:login
         heroku container:release web
     fi
 fi
