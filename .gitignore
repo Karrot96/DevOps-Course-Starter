@@ -126,3 +126,5 @@ geckodriver*
 
 #vagrant
 .vagrant/
+
+.pytest_cache
