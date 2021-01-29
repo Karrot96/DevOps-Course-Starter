@@ -1,7 +1,6 @@
 from todo_app.mongo.mongo_wrapper import MongoWrapper
 from flask import Flask, render_template, request, redirect, url_for
 import os
-from todo_app.trello.trello_api import TrelloAPI
 from todo_app.models.view_model import ViewModel
 
 

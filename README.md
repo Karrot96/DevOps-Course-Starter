@@ -8,14 +8,9 @@ The project uses a poetry to isolate package dependencies. To get poetry running
 poetry install
 ```
 
-## Trello
+## MongoDB
 
-To set up trello add your token, key and board_id to the relevent environment variables.
-
-The trello lists required in the project are:
-- `To Do`
-- `Doing`
-- `Done`
+To set up MongoDB add your username, password, mongo url and default database to the relevent environment variables.
 
 Once the setup script has completed and all packages have been installed, start the Flask app by running:
 ```bash
