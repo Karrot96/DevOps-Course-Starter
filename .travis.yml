@@ -13,6 +13,8 @@ after_success:
 deploy:
   provider: script
   script: "./travis/deploy_to_heroku.sh"
+  on:
+    branch: test
 env:
   global:
   - secure: SoS6POJUKw8d2DCqPNgfLyKPP2HVTDjRhu/LPlSouUj63Wk70XkZT64ZX5BnjNM/C+fO+zj1pQ2TGhiZU7CkIUhlfWiFYB5/VHGck6lzGvrUtQokWg5UuFb9giPZjRMaGStFoPopcV5f0QtISgVLedt81B6fSJoXQbRnk8wOAE8Sg+LeZgEzJfuHAr39/UIO7k+HcHPE5gJL3oclNUJ9sEFDSSH8TUx/UJJ3ysdhDzr51twfeRAf+Km4B/zlHA8vQ1BNLlgUfDKkBd2jiSDdPAivuVmC5AZCsp2mWFp/17g3J3Czve//89uhLY7Kia0G3NYpcNCULOnYbrgQD0f2yEHhNaaQbkKaaSuojs6PAg2q0EVYdMyrChSEki+KTlC/A/gRtoLc8foYZO5CR1acCB13+RMBJzQVf4Md3OmMQsAyVkOS0A00N6i8F9eL1uv6XSyi3m8DktmJxCTc9B9FkgwdHI6LeNSpob9o1CSo35qzvqOEwCVNOMtSrbxcAVXRg9Kl8ew+B/yncnxsdXwBpNFUxyRer0GEnUKTKlUxJjdLWbISxULVyZEKrqnBa4ngNap8dN46ltqOsuJCFkaHxxZMqapN2UG9tz9Kgk4G1pf3wbmbn16ZhrDAAk3KVUlzZstWUz4G9iy5wANhNcqtxvj1r/GpPgohnyuff/wI+Gg=
