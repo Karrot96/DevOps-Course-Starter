@@ -1,20 +1,19 @@
 from todo_app.models.view_model import ViewModel
 from todo_app.models import view_model
 from todo_app.models.item import Item, Status
-from dateutil import parser
 import pytest
 from datetime import datetime
 
-DATE_FOR_USE = "2020-01-01T12:00:00"
+DATE_FOR_USE = datetime(2020, 1, 1, 12, 00, 00)
 
 
 @pytest.fixture
 def today():
-    return "2020-01-03T12:00:00"
+    return datetime(2020, 1, 3, 12, 00,00)
 
 @pytest.fixture
 def yesterday():
-    return "2020-01-02T12:00:00"
+    return datetime(2020, 1, 2, 12, 00, 00)
 
 
 @pytest.fixture(autouse=True)
@@ -26,7 +25,7 @@ def mock_response_url_for(monkeypatch):
 @pytest.fixture(autouse=True)
 def mock_response_today(monkeypatch, today):
     def mock_today(*args, **kwargs):
-        return datetime.date(parser.isoparse(today).replace(tzinfo=None))
+        return datetime.date(today)
     monkeypatch.setattr(view_model, "_today", mock_today)
 
 

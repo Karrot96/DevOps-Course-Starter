@@ -1,8 +1,7 @@
 from datetime import datetime
-import requests
-from requests.api import post
 from todo_app.models.item import Item, Status
 import pymongo
+from bson.objectid import ObjectId
 import os
 
 
@@ -20,12 +19,16 @@ class MongoWrapper:
         return pymongo.MongoClient(f"mongodb+srv://{username}:{password}@{mongo_url}/{database}?w=majority")
 
     def _move_card_lists(self, id, new_list, old_list):
-        post = old_list.find_one({"_id": id})
+        print(str(id))
+        post = old_list.find_one({"_id": ObjectId(id)})
+        print(post)
         new_list.insert_one(post)
-        old_list.delete_one({"_id": id})
+        old_list.delete_one({"_id": ObjectId(id)})
 
     def delete_database(self):
-        self.db.dropDatabase()
+        self.db.todo.drop()
+        self.db.completed.drop()
+        self.db.doing.drop()
 
     def create_database(cls, name: str) -> "MongoWrapper":
         return MongoWrapper(name)
@@ -43,11 +46,12 @@ class MongoWrapper:
         todo_list, completed_list, doing_list = self._get_lists_from_db()
         items = []
         for item in self._get_items_from_collection(todo_list):
-            items.append(Item(item["_id"], Status.TODO, item["name"], item["dateLastActivity"]))
+            print(item)
+            items.append(Item(str(item["_id"]), Status.TODO, item["name"], item["dateLastActivity"]))
         for item in self._get_items_from_collection(doing_list):
-            items.append(Item(item["_id"], Status.DOING, item["name"], item["dateLastActivity"]))
+            items.append(Item(str(item["_id"]), Status.DOING, item["name"], item["dateLastActivity"]))
         for item in self._get_items_from_collection(completed_list):
-            items.append(Item(item["_id"], Status.DONE, item["name"], item["dateLastActivity"]))
+            items.append(Item(str(item["_id"]), Status.DONE, item["name"], item["dateLastActivity"]))
         return items
 
     def add_item(self, title):

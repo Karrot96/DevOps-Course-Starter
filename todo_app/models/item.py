@@ -1,4 +1,3 @@
-from dateutil import parser
 from enum import Enum
 
 
@@ -13,7 +12,7 @@ class Item:
         self.id = id
         self.status: Status = complete
         self.title = title
-        self.last_updated = parser.isoparse(last_updated).replace(tzinfo=None)
+        self.last_updated = last_updated
 
     def __repr__(self):
         return f"(id: {self.id}, status: {self.status.name}, title: {self.title})"
