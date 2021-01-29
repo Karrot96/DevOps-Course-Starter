@@ -113,7 +113,6 @@ def test_recent_done_items_returns_items_completed_today(today, yesterday):
 
     assert item_today in view_model.recent_done_items
     assert item_yesterday not in view_model.recent_done_items
-    assert False
 
 
 def test_older_done_items_returns_items_not_completed_today(today, yesterday):
