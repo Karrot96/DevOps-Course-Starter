@@ -19,9 +19,8 @@ class MongoWrapper:
         return pymongo.MongoClient(f"mongodb+srv://{username}:{password}@{mongo_url}/{database}?w=majority")
 
     def _move_card_lists(self, id, new_list, old_list):
-        print(str(id))
         post = old_list.find_one({"_id": ObjectId(id)})
-        print(post)
+        post["dateLastActivity"] = datetime.utcnow()
         new_list.insert_one(post)
         old_list.delete_one({"_id": ObjectId(id)})
 
@@ -46,7 +45,6 @@ class MongoWrapper:
         todo_list, completed_list, doing_list = self._get_lists_from_db()
         items = []
         for item in self._get_items_from_collection(todo_list):
-            print(item)
             items.append(Item(str(item["_id"]), Status.TODO, item["name"], item["dateLastActivity"]))
         for item in self._get_items_from_collection(doing_list):
             items.append(Item(str(item["_id"]), Status.DOING, item["name"], item["dateLastActivity"]))
