@@ -13,6 +13,4 @@ class User(UserMixin):
         self.role = Roles.WRITER if self.id == "19879648" else Roles.READER
     
     def check_role(self, level: Roles) -> bool:
-        print(self.role)
-        print(level)
         return self.role == level

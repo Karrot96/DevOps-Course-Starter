@@ -24,8 +24,6 @@ class GithubAuthentication:
         if not self._authentication:
             returned_state = response.args.get("state")
             if returned_state != self.state:
-                print(returned_state)
-                print(self.state)
                 raise ValueError(f"Returned state does not match internal state")
             data = {
                 "code": response.args.get("code"),
@@ -35,7 +33,6 @@ class GithubAuthentication:
             result = requests.post("https://github.com/login/oauth/access_token", data=data)
             
             self._authentication = str(result.content).split('&')[0].split('=')[-1]
-            print("hree")
         return User(self.get_user())
 
     def get_user(self) -> int:

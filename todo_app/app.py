@@ -24,7 +24,6 @@ def create_app():
     @login_manager.user_loader
     def load_user(user_id):
         if github_authenticator.authentication():
-            print(user_id)
             return User(user_id)
         return None
 
