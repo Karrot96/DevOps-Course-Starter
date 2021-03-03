@@ -12,11 +12,19 @@ from dotenv import load_dotenv
 from todo_app.user.user import User
 from flask_login import utils
 
+
 @pytest.fixture(scope='module')
-def test_app(monkeypatch):
+def monkeymodule():
+    from _pytest.monkeypatch import MonkeyPatch
+    mpatch = MonkeyPatch()
+    yield mpatch
+    mpatch.undo()
+
+@pytest.fixture(scope='module')
+def test_app(monkeymodule):
     def get_user():
         return User("19879648")
-    monkeypatch.setattr(utils, "_get_user", get_user)
+    monkeymodule.setattr(utils, "_get_user", get_user)
     file_path = find_dotenv('.env.test')
     load_dotenv(file_path, override=True)
     # Create the new board & update the board id environment variable
