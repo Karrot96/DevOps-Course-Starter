@@ -2,7 +2,7 @@ import os
 from threading import Thread
 
 from dotenv.main import find_dotenv
-from todo_app.trello.trello_api import TrelloAPI
+from todo_app.mongo.mongo_wrapper import MongoWrapper
 from todo_app.app import create_app
 import pytest
 from selenium import webdriver
@@ -12,12 +12,12 @@ from dotenv import load_dotenv
 
 @pytest.fixture(scope='module')
 def test_app():
-    # Create the new board & update the board id environment variable
-    trello_board = TrelloAPI().create_board("SeleniumTest")
-    os.environ['TRELLO_BOARD_ID'] = trello_board.board_id
-    # Use our test config instead of the 'real' version
     file_path = find_dotenv('.env.test')
     load_dotenv(file_path, override=True)
+    # Create the new board & update the board id environment variable
+        # Use our test config instead of the 'real' version
+    mongo_db = MongoWrapper().create_database("SeleniumTest")
+    os.environ['DEFAULT_DATABASE'] = "SeleniumTest"
     # construct the new application
     application = create_app()
     # start the app in its own thread.
@@ -27,7 +27,7 @@ def test_app():
     yield application
     # Tear Down
     thread.join(1)
-    trello_board.delete_trello_board()
+    mongo_db.delete_database()
 
 
 @pytest.fixture(scope="module")
