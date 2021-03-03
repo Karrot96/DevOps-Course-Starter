@@ -71,8 +71,3 @@ class MongoWrapper:
     def set_todo(self, id):
         todo_list, completed_list, _ = self._get_lists_from_db()
         self._move_card_lists(id, todo_list, completed_list)
-
-
-if __name__ == "__main__":
-    x = MongoWrapper("")
-    x.create_database(name="test")

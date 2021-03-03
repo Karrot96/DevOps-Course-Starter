@@ -12,7 +12,10 @@ from dotenv import load_dotenv
 
 @pytest.fixture(scope='module')
 def test_app():
+    file_path = find_dotenv('.env.test')
+    load_dotenv(file_path, override=True)
     # Create the new board & update the board id environment variable
+        # Use our test config instead of the 'real' version
     mongo_db = MongoWrapper().create_database("SeleniumTest")
     os.environ['DEFAULT_DATABASE'] = "SeleniumTest"
     # construct the new application
