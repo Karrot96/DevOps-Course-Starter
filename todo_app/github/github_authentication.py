@@ -7,14 +7,25 @@ from hashlib import sha256
 class GithubAuthentication:
     def __init__(self):
         random.seed(a=None, version=2)
-        self.client_id = os.environ["CLIENT_ID"]
-        self.client_secret = os.environ["CLIENT_SECRET"]
+        self._client_id = None
+        self._client_secret = None
         self.state = sha256(str(random.random()).encode('ascii')).hexdigest()
         self._authentication=None
+    
+
+    def get_client_id(self):
+        if not self._client_id:
+            self._client_id = os.environ["CLIENT_ID"]
+        return self._client_id
+    
+    def get_client_secret(self):
+        if not self._client_secret:
+            self._client_secret = os.environ["CLIENT_SECRET"]
+        return self._client_secret
 
     def get_github_identity(self):
         params={
-            "client_id": self.client_id,
+            "client_id": self.get_client_id(),
             "redirect_uri": "http%3A%2F%2Flocalhost%2Flogin%2Fcallback",
             "state": self.state
         }
@@ -27,8 +38,8 @@ class GithubAuthentication:
                 raise ValueError(f"Returned state does not match internal state")
             data = {
                 "code": response.args.get("code"),
-                "client_id": self.client_id,
-                "client_secret": self.client_secret
+                "client_id": self.get_client_id(),
+                "client_secret": self.get_client_secret()
             }
             result = requests.post("https://github.com/login/oauth/access_token", data=data)
             
