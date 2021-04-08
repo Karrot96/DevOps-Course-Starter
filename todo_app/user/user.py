@@ -1,5 +1,6 @@
 from flask_login.mixins import UserMixin
 from enum import Enum
+import os
 
 
 class Roles(Enum):
@@ -10,7 +11,7 @@ class Roles(Enum):
 class User(UserMixin):
     def __init__(self, id):
         self.id = id
-        self.role = Roles.WRITER if self.id == "19879648" else Roles.READER
+        self.role = Roles.WRITER if self.id == os.environ.get("WRITER_ID") else Roles.READER
     
     def check_role(self, level: Roles) -> bool:
         return self.role == level

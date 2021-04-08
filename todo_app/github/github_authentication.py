@@ -23,10 +23,9 @@ class GithubAuthentication:
             self._client_secret = os.environ["CLIENT_SECRET"]
         return self._client_secret
 
-    def get_github_identity(self):
+    def get_github_auth_url(self):
         params={
             "client_id": self.get_client_id(),
-            "redirect_uri": "http%3A%2F%2Flocalhost%2Flogin%2Fcallback",
             "state": self.state
         }
         return f"https://github.com/login/oauth/authorize?{'&'.join([f'{key}={value}' for key, value in params.items()])}"

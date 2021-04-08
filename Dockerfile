@@ -47,6 +47,5 @@ unzip ./chromedriver_linux64.zip
 RUN poetry install --no-root
 COPY . .
 RUN chmod +x ./tests.sh
-ENV SECRET_KEY=TEST_KEY
 
 ENTRYPOINT [ "./tests.sh" ]

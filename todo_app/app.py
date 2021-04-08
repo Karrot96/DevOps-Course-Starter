@@ -15,9 +15,16 @@ def create_app():
     login_manager = LoginManager()
     github_authenticator = GithubAuthentication()
 
+    def check_writer(function):
+        def wrapper():
+            if flask_login.current_user.check_role(Roles.WRITER):
+                function()
+            return redirect(url_for('index'))
+        return wrapper
+
     @login_manager.unauthorized_handler
     def unauthenticated():
-        authentication_url = github_authenticator.get_github_identity()
+        authentication_url = github_authenticator.get_github_auth_url()
         return redirect(authentication_url)
         
     
@@ -30,11 +37,10 @@ def create_app():
     login_manager.init_app(app)
 
     @app.route('/', methods=['POST'])
+    @check_writer
     @login_required
     def add_title():
-        if flask_login.current_user.check_role(Roles.WRITER):
-            mongo_database.add_item(request.form.get('title'))
-        return redirect(url_for('index'))
+        mongo_database.add_item(request.form.get('title'))
 
     @app.route('/')
     @login_required
@@ -45,34 +51,31 @@ def create_app():
         return render_template('index.html', view_model=item_view_model, role_id=role_id)
 
     @app.route('/complete_items/<id>')
+    @check_writer
     @login_required
     def complete_items(id):
-        if flask_login.current_user.check_role(Roles.WRITER):
-            mongo_database.complete_item(id)
-        return redirect(url_for('index'))
+        mongo_database.complete_item(id)
         
 
 
     @app.route('/move_todo/<id>')
+    @check_writer
     @login_required
     def set_doing(id):
-        if flask_login.current_user.check_role(Roles.WRITER):
-            mongo_database.set_doing(id)
-        return redirect(url_for('index'))
+        mongo_database.set_doing(id)
 
     @app.route('/undo_complete/<id>')
     @login_required
+    @check_writer
     def undo_complete(id):
-        if flask_login.current_user.check_role(Roles.WRITER):
-            mongo_database.set_todo(id)
-        return redirect(url_for('index'))
+        mongo_database.set_todo(id)
+
 
     @app.route('/create_board/<name>')
+    @check_writer
     @login_required
     def create_board(name):
-        if flask_login.current_user.check_role(Roles.WRITER):
-            mongo_database.create_board(name)
-        return redirect(url_for('index'))
+        mongo_database.create_board(name)
 
     @app.route('/login/callback', methods=["GET"])
     def github_authentication():

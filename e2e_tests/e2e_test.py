@@ -22,11 +22,11 @@ def monkeymodule():
 
 @pytest.fixture(scope='module')
 def test_app(monkeymodule):
-    def get_user():
-        return User("19879648")
-    monkeymodule.setattr(utils, "_get_user", get_user)
     file_path = find_dotenv('.env.test')
     load_dotenv(file_path, override=True)
+    def get_user():
+        return User(os.environ.get("WRITER_ID"))
+    monkeymodule.setattr(utils, "_get_user", get_user)
     # Create the new board & update the board id environment variable
         # Use our test config instead of the 'real' version
     mongo_db = MongoWrapper().create_database("SeleniumTest")
