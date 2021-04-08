@@ -1,3 +1,4 @@
+from functools import wraps
 from todo_app.user.user import Roles, User
 import flask_login
 from todo_app.github.github_authentication import GithubAuthentication
@@ -6,7 +7,6 @@ from flask import Flask, render_template, request, redirect, url_for
 import os
 from todo_app.models.view_model import ViewModel
 from flask_login import LoginManager, login_required
-from flask_user import roles_required
 
 def create_app():
     app = Flask(__name__)
@@ -15,12 +15,16 @@ def create_app():
     mongo_database = MongoWrapper(os.environ.get('DEFAULT_DATABASE'))
     login_manager = LoginManager()
     github_authenticator = GithubAuthentication()
-
-    def check_writer(function):
-        def wrapper():
-            if flask_login.current_user.check_role(Roles.WRITER):
-                function()
-            return redirect(url_for('index'))
+    
+    def roles_required(role_name):
+        def wrapper(view_function):
+            @wraps(view_function)    # Tells debuggers that is is a function wrapper
+            def decorator(*args, **kwargs):
+                if not flask_login.current_user.check_role(role_name):
+                    # Redirect to unauthenticated page
+                    return redirect(url_for('index'))
+                return view_function(*args, **kwargs)
+            return decorator
         return wrapper
 
     @login_manager.unauthorized_handler
