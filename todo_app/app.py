@@ -36,8 +36,8 @@ def create_app():
 
     login_manager.init_app(app)
 
-    @app.route('/', methods=['POST'])
     @check_writer
+    @app.route('/', methods=['POST'])
     @login_required
     def add_title():
         mongo_database.add_item(request.form.get('title'))
@@ -50,29 +50,28 @@ def create_app():
         role_id = flask_login.current_user.role.value
         return render_template('index.html', view_model=item_view_model, role_id=role_id)
 
-    @app.route('/complete_items/<id>')
     @check_writer
+    @app.route('/complete_items/<id>')
     @login_required
     def complete_items(id):
         mongo_database.complete_item(id)
         
 
-
-    @app.route('/move_todo/<id>')
     @check_writer
+    @app.route('/move_todo/<id>')
     @login_required
     def set_doing(id):
         mongo_database.set_doing(id)
 
+    @check_writer
     @app.route('/undo_complete/<id>')
     @login_required
-    @check_writer
     def undo_complete(id):
         mongo_database.set_todo(id)
 
 
-    @app.route('/create_board/<name>')
     @check_writer
+    @app.route('/create_board/<name>')
     @login_required
     def create_board(name):
         mongo_database.create_board(name)
