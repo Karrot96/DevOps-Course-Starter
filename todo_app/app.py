@@ -8,7 +8,6 @@ from todo_app.models.view_model import ViewModel
 from flask_login import LoginManager, login_required
 from flask_user import roles_required
 
-
 def create_app():
     app = Flask(__name__)
     app.config["SECRET_KEY"]=os.environ.get("SECRET_KEY")
