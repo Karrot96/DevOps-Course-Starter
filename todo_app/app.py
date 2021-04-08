@@ -10,8 +10,8 @@ from flask_login import LoginManager, login_required
 
 def create_app():
     app = Flask(__name__)
-    app.config["SECRET_KEY"]=os.environ["SECRET_KEY"]
-    mongo_database = MongoWrapper(os.environ['DEFAULT_DATABASE'])
+    app.config["SECRET_KEY"]=os.environ.get("SECRET_KEY")
+    mongo_database = MongoWrapper(os.environ.get('DEFAULT_DATABASE'))
     login_manager = LoginManager()
     github_authenticator = GithubAuthentication()
 
