@@ -9,24 +9,11 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
 from dotenv import load_dotenv
-from todo_app.user.user import User
-from flask_login import utils
-
 
 @pytest.fixture(scope='module')
-def monkeymodule():
-    from _pytest.monkeypatch import MonkeyPatch
-    mpatch = MonkeyPatch()
-    yield mpatch
-    mpatch.undo()
-
-@pytest.fixture(scope='module')
-def test_app(monkeymodule):
+def test_app():
     file_path = find_dotenv('.env.test')
     load_dotenv(file_path, override=True)
-    def get_user():
-        return User(os.environ.get("WRITER_ID"))
-    monkeymodule.setattr(utils, "_get_user", get_user)
     # Create the new board & update the board id environment variable
         # Use our test config instead of the 'real' version
     mongo_db = MongoWrapper().create_database("SeleniumTest")

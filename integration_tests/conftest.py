@@ -1,12 +1,8 @@
-from todo_app.user.user import User
 import pytest
 from dotenv import find_dotenv, load_dotenv
 from todo_app.app import create_app
 from todo_app.mongo.mongo_wrapper import MongoWrapper
 import mongomock
-from todo_app.github.github_authentication import GithubAuthentication
-from flask_login import utils
-import os
 
 @pytest.fixture
 def client(monkeypatch):
@@ -14,9 +10,6 @@ def client(monkeypatch):
     # Use our test integration config instead of the 'real' version
     file_path = find_dotenv('todo_app/.env.test')
     load_dotenv(file_path, override=False)
-    def get_user():
-        return User(os.environ.get("WRITER_ID"))
-    monkeypatch.setattr(utils, "_get_user", get_user)
     # Create the new app.
     test_app = create_app()
     # Use the app to create a test_client that can be used in our tests.

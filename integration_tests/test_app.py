@@ -1,5 +1,3 @@
-from todo_app.app import create_app
-from todo_app.user.user import User
 import pytest
 from todo_app.mongo.mongo_wrapper import MongoWrapper
 import mongomock
