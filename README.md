@@ -8,6 +8,8 @@ The project uses a poetry to isolate package dependencies. To get poetry running
 poetry install
 ```
 
+After this create a `.env` file in the `todo_app` folder that matches the `.env.template`. The current app is only supported running on Linux
+
 ## MongoDB
 
 To set up MongoDB add your username, password, mongo url and default database to the relevent environment variables.
@@ -66,12 +68,13 @@ vagrant up
 then navigate to http://localhost:5000
 
 ## Docker
-To run production version of docker
+To run production version of docker locally use the following. Then navigate to http://localhost:8003
 
 ```bash
 docker build --target production --tag todo-app:prod .
 docker run -d --env-file {Location of env file} -p 8003:8003 todo-app:prod
 ```
+
 
 To run development version in docker on linux using port 80.
 
