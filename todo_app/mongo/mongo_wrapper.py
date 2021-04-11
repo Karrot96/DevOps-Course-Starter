@@ -13,10 +13,7 @@ class MongoWrapper:
         self.db = client.database
 
     def _connect(self, database):
-        username = os.environ['USERNAME']
-        password = os.environ['PASSWORD']
-        mongo_url = os.environ['MONGO_URL']
-        return pymongo.MongoClient(f"mongodb+srv://{username}:{password}@{mongo_url}/{database}?w=majority")
+        return pymongo.MongoClient(database)
 
     def _move_card_lists(self, id, new_list, old_list):
         post = old_list.find_one({"_id": ObjectId(id)})
