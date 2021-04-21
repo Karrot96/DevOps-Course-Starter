@@ -11,8 +11,6 @@ DOING_BASE = "_doing"
 class MongoWrapper:
 
     def __init__(self, connection_string, database):
-        tmp = f"{connection_string}?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&{os.environ.get('APP_NAME')}"
-        print(tmp)
         client = self._connect(f"{connection_string}?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&{os.environ.get('APP_NAME')}")
         self.db = client.database
         self.todo = self.db[f"{database}{TODO_BASE}"]
