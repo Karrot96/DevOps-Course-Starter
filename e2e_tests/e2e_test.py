@@ -14,8 +14,12 @@ SELENIUM_DATABASE = "SeleniumTest"
 
 @pytest.fixture(scope='module')
 def test_app():
-    file_path = find_dotenv('.env.test')
-    load_dotenv(file_path, override=True)
+    try:
+        file_path = find_dotenv('.env.test')
+        load_dotenv(file_path, override=True)
+    except OSError:
+        # Often we can just ignore this error as it means we already have the variables set
+        pass
     mongo_db = MongoWrapper(os.environ.get('MONGO_URL'), SELENIUM_DATABASE)
 
     # construct the new application

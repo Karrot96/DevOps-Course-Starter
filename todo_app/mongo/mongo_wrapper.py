@@ -2,6 +2,7 @@ from datetime import datetime
 from todo_app.models.item import Item, Status
 import pymongo
 from bson.objectid import ObjectId
+import os
 
 TODO_BASE = "_todo"
 COMPLETED_BASE = "_completed"
@@ -10,7 +11,7 @@ DOING_BASE = "_doing"
 class MongoWrapper:
 
     def __init__(self, connection_string, database):
-        client = self._connect(connection_string)
+        client = self._connect(f"{connection_string}?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&{os.environ.get('APP_NAME')}")
         self.db = client.database
         self.todo = self.db[f"{database}{TODO_BASE}"]
         self.completed = self.db[f"{database}{COMPLETED_BASE}"]
