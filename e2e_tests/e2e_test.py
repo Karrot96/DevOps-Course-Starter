@@ -19,7 +19,7 @@ def test_app():
     mongo_db = MongoWrapper(os.environ.get('MONGO_URL'), SELENIUM_DATABASE)
 
     # construct the new application
-    application = create_app(SELENIUM_DATABASE)
+    application = create_app()
     # start the app in its own thread.
     thread = Thread(target=lambda: application.run(use_reloader=False))
     thread.daemon = True
