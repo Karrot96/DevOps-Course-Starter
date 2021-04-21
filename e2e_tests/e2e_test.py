@@ -1,4 +1,3 @@
-import os
 from threading import Thread
 
 from dotenv.main import find_dotenv
@@ -9,17 +8,18 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
 from dotenv import load_dotenv
+import os
+
+SELENIUM_DATABASE = "SeleniumTest"
 
 @pytest.fixture(scope='module')
 def test_app():
     file_path = find_dotenv('.env.test')
     load_dotenv(file_path, override=True)
-    # Create the new board & update the board id environment variable
-        # Use our test config instead of the 'real' version
-    mongo_db = MongoWrapper().create_database("SeleniumTest")
-    os.environ['DEFAULT_DATABASE'] = "SeleniumTest"
+    mongo_db = MongoWrapper(os.environ.get('MONGO_URL'), SELENIUM_DATABASE)
+
     # construct the new application
-    application = create_app()
+    application = create_app(SELENIUM_DATABASE)
     # start the app in its own thread.
     thread = Thread(target=lambda: application.run(use_reloader=False))
     thread.daemon = True
@@ -28,6 +28,7 @@ def test_app():
     # Tear Down
     thread.join(1)
     mongo_db.delete_database()
+    
 
 
 @pytest.fixture(scope="module")

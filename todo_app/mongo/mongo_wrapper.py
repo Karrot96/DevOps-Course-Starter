@@ -2,14 +2,12 @@ from datetime import datetime
 from todo_app.models.item import Item, Status
 import pymongo
 from bson.objectid import ObjectId
-import os
-
 
 class MongoWrapper:
 
-    def __init__(self, database: str = ""):
-        
-        client = self._connect(database)
+    def __init__(self, connection: str, database):
+        connect_string = connection.replace("DATABASENAME", database)
+        client = self._connect(connect_string)
         self.db = client.database
 
     def _connect(self, database):
@@ -25,9 +23,6 @@ class MongoWrapper:
         self.db.todo.drop()
         self.db.completed.drop()
         self.db.doing.drop()
-
-    def create_database(cls, name: str) -> "MongoWrapper":
-        return MongoWrapper(name)
 
     def _get_items_from_collection(self, collection):
         return collection.find()

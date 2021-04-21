@@ -4,9 +4,9 @@ import os
 from todo_app.models.view_model import ViewModel
 
 
-def create_app():
+def create_app(database: str = "DefaultDatabase"):
     app = Flask(__name__)
-    mongo_database = MongoWrapper(os.environ.get('MONGO_URL'))
+    mongo_database = MongoWrapper(os.environ.get('MONGO_URL'), database)
 
 
     @app.route('/', methods=['POST'])
