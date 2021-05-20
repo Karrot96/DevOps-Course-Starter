@@ -1,16 +1,27 @@
+import os
+import time
 from threading import Thread
 
-from dotenv.main import find_dotenv
-from todo_app.mongo.mongo_wrapper import MongoWrapper
-from todo_app.app import create_app
 import pytest
+from dotenv import load_dotenv
+from dotenv.main import find_dotenv
+from flask_login import utils
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-import time
-from dotenv import load_dotenv
-import os
+from todo_app.app import create_app
+from todo_app.mongo.mongo_wrapper import MongoWrapper
+from todo_app.user.user import User
 
 SELENIUM_DATABASE = "SeleniumTest"
+
+
+@pytest.fixture(scope='module')
+def monkeymodule():
+    from _pytest.monkeypatch import MonkeyPatch
+    mpatch = MonkeyPatch()
+    yield mpatch
+    mpatch.undo()
+
 
 @pytest.fixture(scope='module')
 def test_app():
@@ -21,6 +32,10 @@ def test_app():
         # Often we can just ignore this error as it means we already have the variables set
         pass
     mongo_db = MongoWrapper(os.environ.get('MONGO_URL'), SELENIUM_DATABASE)
+    
+    def get_user():
+        return User(os.environ.get("WRITER_ID"))
+    monkeymodule.setattr(utils, "_get_user", get_user)
 
     # construct the new application
     application = create_app(SELENIUM_DATABASE)
