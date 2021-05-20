@@ -13,7 +13,7 @@ class MongoWrapper:
         self.db = client.database
 
     def _connect(self, database):
-        username = os.environ['USERNAME']
+        username = os.environ['DB_USER']
         password = os.environ['PASSWORD']
         mongo_url = os.environ['MONGO_URL']
         return pymongo.MongoClient(f"mongodb+srv://{username}:{password}@{mongo_url}/{database}?w=majority")
