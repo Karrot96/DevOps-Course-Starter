@@ -8,6 +8,7 @@ TODO_BASE = "_todo"
 COMPLETED_BASE = "_completed"
 DOING_BASE = "_doing"
 
+
 class MongoWrapper:
 
     def __init__(self, connection_string, database):
