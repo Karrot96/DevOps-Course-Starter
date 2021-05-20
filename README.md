@@ -8,7 +8,9 @@ The project uses a poetry to isolate package dependencies. To get poetry running
 poetry install
 ```
 
-After this create a `.env` file in the `todo_app` folder that matches the `.env.template`. The current app is only supported running on Linux
+After this create a `.env` file in the `todo_app` folder that matches the `.env.template`. The current app is only supported running on Linux.
+
+Get the github credentials via the following tutorial https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token. 
 
 ## MongoDB
 
