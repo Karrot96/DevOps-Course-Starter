@@ -24,7 +24,7 @@ def monkeymodule():
 
 
 @pytest.fixture(scope='module')
-def test_app():
+def test_app(monkeymodule):
     try:
         file_path = find_dotenv('.env.test')
         load_dotenv(file_path, override=True)
@@ -58,8 +58,6 @@ def driver():
     opts.add_argument('--disable-dev-shm-usage')
     with webdriver.Chrome('./chromedriver', options=opts) as driver:
         yield driver
-
-
 
 
 def test_task_journey(driver, test_app):
