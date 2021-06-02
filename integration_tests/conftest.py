@@ -4,7 +4,6 @@ from dotenv import find_dotenv, load_dotenv
 from todo_app.app import create_app
 from todo_app.mongo.mongo_wrapper import MongoWrapper
 import mongomock
-from todo_app.github.github_authentication import GithubAuthentication
 from flask_login import utils
 import os
 
@@ -18,6 +17,10 @@ def client(monkeypatch):
     except OSError:
         # Often we can just ignore this error as it means we already have the variables set
         pass
+    
+    def get_user():
+        return User(os.environ.get("WRITER_ID"))
+    monkeypatch.setattr(utils, "_get_user", get_user)
     # Create the new app.
     test_app = create_app()
     # Use the app to create a test_client that can be used in our tests.
