@@ -32,6 +32,14 @@ RUN poetry install --no-root
 
 FROM base as test
 
+RUN poetry install --no-root
+COPY . .
+RUN chmod +x ./tests/tests.sh
+
+ENTRYPOINT [ "./tests/tests.sh" ]
+
+FROM base as e2e_tests
+
 # Install Chrome
 RUN curl -sSL https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -o chrome.deb &&\
     apt-get update &&\
@@ -46,6 +54,6 @@ unzip ./chromedriver_linux64.zip
 
 RUN poetry install --no-root
 COPY . .
-RUN chmod +x ./tests.sh
+RUN chmod +x ./tests/e2e_tests.sh
 
-ENTRYPOINT [ "./tests.sh" ]
+ENTRYPOINT [ "./tests/e2e_tests.sh" ]
