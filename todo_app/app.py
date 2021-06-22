@@ -8,11 +8,11 @@ import os
 from todo_app.models.view_model import ViewModel
 from flask_login import LoginManager, login_required
 
-def create_app():
+def create_app(database_name="Main"):
     app = Flask(__name__)
     app.config["SECRET_KEY"]=os.environ.get("SECRET_KEY")
     app.config["USER_UNAUTHORIZED_ENDPOINT"] = "/index"
-    mongo_database = MongoWrapper(os.environ.get('DEFAULT_DATABASE'))
+    mongo_database = MongoWrapper(os.environ.get('MONGO_URL'), database_name)
     login_manager = LoginManager()
     github_authenticator = GithubAuthentication()
     

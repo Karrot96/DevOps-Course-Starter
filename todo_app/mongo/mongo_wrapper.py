@@ -4,19 +4,22 @@ import pymongo
 from bson.objectid import ObjectId
 import os
 
+TODO_BASE = "_todo"
+COMPLETED_BASE = "_completed"
+DOING_BASE = "_doing"
+
 
 class MongoWrapper:
 
-    def __init__(self, database: str = ""):
-        
-        client = self._connect(database)
-        self.db = client.database
+    def __init__(self, connection_string, database):
+        client = self._connect(f"{connection_string}?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&{os.environ.get('APP_NAME')}")
+        self.db = client[database]
+        self.todo = self.db[f"{TODO_BASE}"]
+        self.completed = self.db[f"{COMPLETED_BASE}"]
+        self.doing = self.db[f"{DOING_BASE}"]
 
     def _connect(self, database):
-        username = os.environ['DB_USER']
-        password = os.environ['PASSWORD']
-        mongo_url = os.environ['MONGO_URL']
-        return pymongo.MongoClient(f"mongodb+srv://{username}:{password}@{mongo_url}/{database}?w=majority")
+        return pymongo.MongoClient(database)
 
     def _move_card_lists(self, id, new_list, old_list):
         post = old_list.find_one({"_id": ObjectId(id)})
@@ -25,20 +28,18 @@ class MongoWrapper:
         old_list.delete_one({"_id": ObjectId(id)})
 
     def delete_database(self):
-        self.db.todo.drop()
-        self.db.completed.drop()
-        self.db.doing.drop()
-
-    def create_database(cls, name: str) -> "MongoWrapper":
-        return MongoWrapper(name)
+        self.todo.drop()
+        self.completed.drop()
+        self.doing.drop()
+        self.db.drop_collection()
 
     def _get_items_from_collection(self, collection):
         return collection.find()
 
     def _get_lists_from_db(self):
-        todo_list = self.db.todo
-        completed_list = self.db.completed
-        doing_list = self.db.doing
+        todo_list = self.todo
+        completed_list = self.completed
+        doing_list = self.doing
         return todo_list, completed_list, doing_list
 
     def get_items(self):

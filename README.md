@@ -14,7 +14,7 @@ Get the github credentials via the following tutorial https://docs.github.com/en
 
 ## MongoDB
 
-To set up MongoDB add your username, password, mongo url and default database to the relevent environment variables.
+Set up Mongo Db (preferably as azure cosmos DB). Set the MongoDB connection string and app name in the relevant environment variables form the template. 
 
 Once the setup script has completed and all packages have been installed, start the Flask app by running:
 ```bash
