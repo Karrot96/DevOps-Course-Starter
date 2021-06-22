@@ -54,6 +54,6 @@ unzip ./chromedriver_linux64.zip
 
 RUN poetry install --no-root
 COPY . .
-RUN chmod +x ./tests/e2e_tests.sh
+RUN chmod +x ./tests/e2e_test.sh
 
-ENTRYPOINT [ "./tests/e2e_tests.sh" ]
+ENTRYPOINT [ "./tests/e2e_test.sh" ]

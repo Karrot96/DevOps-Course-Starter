@@ -12,8 +12,8 @@ DOING_BASE = "_doing"
 class MongoWrapper:
 
     def __init__(self, connection_string, database):
-        client = self._connect(f"{connection_string}?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&{os.environ.get('APP_NAME')}")
-        self.db = client[database]
+        self.client = self._connect(f"{connection_string}?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&{os.environ.get('APP_NAME')}")
+        self.db = self.client[database]
         self.todo = self.db[f"{TODO_BASE}"]
         self.completed = self.db[f"{COMPLETED_BASE}"]
         self.doing = self.db[f"{DOING_BASE}"]
@@ -31,7 +31,7 @@ class MongoWrapper:
         self.todo.drop()
         self.completed.drop()
         self.doing.drop()
-        self.db.drop_collection()
+        self.client.drop_database(self.db)
 
     def _get_items_from_collection(self, collection):
         return collection.find()
