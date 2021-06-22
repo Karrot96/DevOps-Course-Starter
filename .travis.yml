@@ -7,8 +7,10 @@ before_install:
 - docker build --tag karrot96/todo-app --cache-from karrot96/todo-app .
 - docker push karrot96/todo-app
 - docker build --target test --tag my-test-image --cache-from karrot96/todo-app .
+- docker build --target e2e_test --tag e2e-test-image --cache-from karrot96/todo-app .
 script:
 - docker run -e MONGO_URL -e APP_NAME my-test-image
+- docker run -e MONGO_URL -e APP_NAME e2e-test-image
 after_success: 
 - "./travis/build_and_tag_production.sh"
 before_deploy: 
