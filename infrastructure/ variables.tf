@@ -15,13 +15,25 @@ variable "cosmos_db_name" {
 }
 
 variable "client_id" {
+  sensitive = true
 }
 
 variable "client_secret" {
+  sensitive = true
 }
 
 variable "secret_key" {
+  sensitive = true
 }
 
 variable "writer_id" {
+  sensitive = true
+}
+
+variable "loggly_token" {
+  sensitive = true
+}
+
+variable "log_level" {
+  default = "INFO"
 }

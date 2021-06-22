@@ -31,7 +31,7 @@ resource "azurerm_app_service" "main" {
     "FLASK_ENV"                  = "production"
     "SECRET_KEY"                 = var.secret_key
     "WRITER_ID"                  = var.writer_id
-
-
+    "LOGGLY_TOKEN"               = var.loggly_token
+    "LOG_LEVEL"                  = var.log_level
   }
 }

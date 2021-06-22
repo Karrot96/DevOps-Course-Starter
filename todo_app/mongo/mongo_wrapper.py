@@ -59,7 +59,7 @@ class MongoWrapper:
             "name": title,
             "dateLastActivity": datetime.utcnow()
         }
-        todo_list.insert_one(post)
+        return todo_list.insert_one(post)
 
     def complete_item(self, id):
         _, completed_list, doing_list = self._get_lists_from_db()
