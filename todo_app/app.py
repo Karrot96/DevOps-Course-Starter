@@ -16,7 +16,7 @@ def create_app(database_name="Main"):
     app = Flask(__name__)
     app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
     app.config["USER_UNAUTHORIZED_ENDPOINT"] = "/index"
-    app.logger.setLevel(os.environ.get("LOG_LEVEL", default="DEBUG"))
+    app.logger.setLevel(os.environ.get("LOG_LEVEL", default="INFO"))
     
     if os.environ.get('LOGGLY_TOKEN'):
         handler = HTTPSHandler(f'https://logs-01.loggly.com/inputs/{os.environ.get("LOGGLY_TOKEN")}/tag/todo-app')    
@@ -32,7 +32,7 @@ def create_app(database_name="Main"):
             @wraps(view_function)    # Tells debuggers that is is a function wrapper
             def decorator(*args, **kwargs):
                 if not flask_login.current_user.check_role(role_name):
-                    app.logger.warning("User attempted to access page without required permission",)
+                    app.logger.warning("User attempted to access page without required permission")
                     # Redirect to unauthenticated page
                     return redirect(url_for('index'))
                 return view_function(*args, **kwargs)

@@ -20,7 +20,7 @@ before_deploy:
   - rm terraform_"$TF_VERSION"_linux_amd64.zip 
   - cd ./infrastructure
   - terraform init 
-  - terraform apply -var client_id=$CLIENT_ID -var client_secret=$CLIENT_SECRET -var secret_key=$SECRET_KEY -var writer_id=$WRITER_ID -auto-approve 
+  - terraform apply -var client_id=$CLIENT_ID -var client_secret=$CLIENT_SECRET -var secret_key=$SECRET_KEY -var writer_id=$WRITER_ID -var loggly_token=$LOGGLY_TOKEN -auto-approve 
   - cd ..
 deploy:
   provider: script
