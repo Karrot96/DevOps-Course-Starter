@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: module-14
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: module-14
+  template:
+    metadata:
+      labels:
+        app: module-14
+    spec:
+      containers:
+      - name: nginx
+        image: todo-app:prod
+        ports:
+        - containerPort: 80
+        imagePullPolicy: Never
+        env:
+          - name: FLASK_APP
+            value: app
+          - name: FLASK_ENV
+            value: development
+          - name: LOG_LEVEL
+            value: DEBUG
+          - name: SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: my-secrets
+                key: SECRET_KEY
+          - name: MONGO_URL
+            valueFrom:
+              secretKeyRef:
+                name: my-secrets
+                key: MONGO_URL
+          - name: APP_NAME
+            valueFrom:
+              secretKeyRef:
+                name: my-secrets
+                key: APP_NAME
+          - name: PORT
+            value: "8080"
+          - name: CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: my-secrets
+                key: CLIENT_ID
+          - name: CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: my-secrets
+                key: CLIENT_SECRET
+          - name: LOGGLY_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: my-secrets
+                key: LOGGLY_TOKEN
+          - name: WRITER_ID
+            value: "19879648"
